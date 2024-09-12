@@ -294,7 +294,9 @@ in
 
     intl = prev.extensions.intl.overrideAttrs (attrs: {
       buildInputs =
-        if lib.versionOlder prev.php.version "8.1.0" then
+        if lib.versionAtLeast prev.php.version "8.1.0" then
+          (builtins.filter (pkg: pkg != pkgs.icu74) attrs.buildInputs) ++ [ pkgs.icu64 ]
+        else if lib.versionOlder prev.php.version "8.1.0" then
           (builtins.filter (pkg: pkg != pkgs.icu73) attrs.buildInputs) ++ [ pkgs.icu64 ]
         else
           attrs.buildInputs;
@@ -706,6 +708,8 @@ in
         } // lib.optionalAttrs (lib.versionOlder prev.php.version "7.2" && pkgs.stdenv.cc.isClang) {
           NIX_CFLAGS_COMPILE = (attrs.NIX_CFLAGS_COMPILE or "") + " -Wno-implicit-function-declaration -Wno-int-conversion";
         })
+      else if lib.versionOlder prev.php.version "8.2" then
+       final.callPackage ./extensions/redis/5.nix { }
       else
         prev.extensions.redis;
 
