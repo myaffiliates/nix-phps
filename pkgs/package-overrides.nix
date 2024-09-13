@@ -568,15 +568,15 @@ in
     openssl-legacy = prev.extensions.openssl-legacy.overrideAttrs (attrs: {
       buildInputs =
         let
-          replaceOpenssl_legacy = pkg:
-            if pkg.pname == "openssl_legacy" && lib.versionOlder prev.php.version "8.4" then
-              pkgs.openssl_legacy.overrideAttrs (old: {
+          replaceOpenssl-legacy = pkg:
+            if pkg.pname == "openssl_1_1" && lib.versionAtLeast prev.php.version "8.1" then
+              pkgs.openssl_1_1.overrideAttrs (old: {
                 meta = builtins.removeAttrs old.meta [ "knownVulnerabilities" ];
               })
             else
               pkg;
         in
-        builtins.map replaceOpenssl_legacy attrs.buildInputs;
+        builtins.map replaceOpenssl-legacy attrs.buildInputs;
     });
 
     openssl = prev.extensions.openssl.overrideAttrs (attrs: {
