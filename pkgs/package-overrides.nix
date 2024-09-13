@@ -571,7 +571,7 @@ in
           replaceOpenssl-legacy = pkg:
             if pkg.pname == "openssl_1_1" && lib.versionAtLeast prev.php.version "8.1" then
               pkgs.openssl_1_1.overrideAttrs (old: {
-                meta = builtins.removeAttrs old.meta [ "knownVulnerabilities" ];
+                meta = builtins.removeAttrs old.extraMeta [ "knownVulnerabilities" ];
               })
             else
               pkg;
