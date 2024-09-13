@@ -565,36 +565,36 @@ in
           ])
           attrs.postPatch;
     });
-    openssl-legacy = prev.extensions.openssl-legacy.overrideAttrs (attrs: {
-      patches =
-        let
-          upstreamPatches =
-            attrs.patches or [];
-          ourPatches =
-            lib.optionals (lib.versionOlder prev.php.version "7.0") [
-              # PHP ≤ 5.6 requires openssl 1.0.
-              # https://github.com/php-build/php-build/pull/609
-              # https://github.com/oerdnj/deb.sury.org/issues/566
-              (pkgs.fetchurl {
-                url = "https://github.com/php-build/php-build/raw/43c8e02689bc29d48daa338b73bcd4f2bbd8def1/share/php-build/patches/php-5.6-support-openssl-1.1.0.patch";
-                sha256 = "UHu3SyYSMozfXlm5ZGRaSdD5NnrdAB7NaY4P0NREVCE=";
-              })
-            ];
-        in
-        ourPatches ++ upstreamPatches;
+    # openssl-legacy = prev.extensions.openssl-legacy.overrideAttrs (attrs: {
+    #   patches =
+    #     let
+    #       upstreamPatches =
+    #         attrs.patches or [];
+    #       ourPatches =
+    #         lib.optionals (lib.versionOlder prev.php.version "7.0") [
+    #           # PHP ≤ 5.6 requires openssl 1.0.
+    #           # https://github.com/php-build/php-build/pull/609
+    #           # https://github.com/oerdnj/deb.sury.org/issues/566
+    #           (pkgs.fetchurl {
+    #             url = "https://github.com/php-build/php-build/raw/43c8e02689bc29d48daa338b73bcd4f2bbd8def1/share/php-build/patches/php-5.6-support-openssl-1.1.0.patch";
+    #             sha256 = "UHu3SyYSMozfXlm5ZGRaSdD5NnrdAB7NaY4P0NREVCE=";
+    #           })
+    #         ];
+    #     in
+    #     ourPatches ++ upstreamPatches;
 
-      buildInputs =
-        let
-          replaceOpenssl-legacy = pkg:
-            if pkg.pname == "openssl_1_1" && lib.versionAtLeast prev.php.version "8.1" then
-              pkgs.openssl_1_1.overrideAttrs (old: {
-                meta = builtins.removeAttrs old.meta [ "knownVulnerabilities" ];
-              })
-            else
-              pkg;
-        in
-        builtins.map replaceOpenssl-legacy attrs.buildInputs;
-    });
+    #   buildInputs =
+    #     let
+    #       replaceOpenssl-legacy = pkg:
+    #         if pkg.pname == "openssl_1_1" && lib.versionAtLeast prev.php.version "8.1" then
+    #           pkgs.openssl_1_1.overrideAttrs (old: {
+    #             meta = builtins.removeAttrs old.meta [ "knownVulnerabilities" ];
+    #           })
+    #         else
+    #           pkg;
+    #     in
+    #     builtins.map replaceOpenssl-legacy attrs.buildInputs;
+    # });
 
     openssl = prev.extensions.openssl.overrideAttrs (attrs: {
       patches =
@@ -618,7 +618,7 @@ in
       buildInputs =
         let
           replaceOpenssl = pkg:
-            if pkg.pname == "openssl" && lib.versionOlder prev.php.version "8.1" then
+            if pkg.pname == "openssl" && lib.versionOlder prev.php.version "8.3" then
               pkgs.openssl_1_1.overrideAttrs (old: {
                 meta = builtins.removeAttrs old.meta [ "knownVulnerabilities" ];
               })
