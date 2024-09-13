@@ -31,7 +31,7 @@ base.withExtensions (
       mysqli
       mysqlnd
       opcache
-      openssl
+      openssl-legacy
       pcntl
       pdo
       pdo_mysql
