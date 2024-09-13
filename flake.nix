@@ -20,6 +20,7 @@
         # Let’s merge the package set from Nixpkgs with our custom PHP versions.
         pkgs = import nixpkgs.outPath {
           config = {
+            permittedInsecurePackages = [ "openssl-1.1.1w" ];
             allowUnfree = true;
           };
           inherit system;
