@@ -63,6 +63,10 @@ let
 
           configureFlags =
             attrs.configureFlags
+            ++ prev.lib.optionals (prev.lib.versionOlder args.version "8.4") [
+              "--with-config-file-scan-dir=/etc/php/php.d/"
+              "--with-icu-dir=/etc/icudev"
+            ]
             ++ prev.lib.optionals (prev.lib.versionOlder args.version "7.4") [
               # phar extension’s build system expects hash or it will degrade.
               "--enable-hash"
@@ -153,9 +157,11 @@ in
 
   php80 = import ./php/8.0.nix { inherit prev mkPhp; };
 
-  php81 = prev.php81.override {
-    inherit packageOverrides;
-  };
+  php81 = import ./php/8.1.nix { inherit prev mkPhp; };
+
+  #prev.php81.override {
+  #  inherit packageOverrides;
+  #};
 
   php82 = prev.php82.override {
     inherit packageOverrides;
