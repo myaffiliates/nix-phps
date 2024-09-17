@@ -296,7 +296,7 @@ in
       buildInputs =
         if lib.versionOlder prev.php.version "8.1.0" then
           (builtins.filter (pkg: pkg != pkgs.icu73) attrs.buildInputs) ++ [ pkgs.icu64 ]
-        else if lib.versionOlder prev.php.version "8.2.0" then
+        else if lib.versionAtLeast prev.php.version "8.1.0" then
            (builtins.filter (pkg: pkg != pkgs.icu74) attrs.buildInputs) ++ [ pkgs.icu64 ]
         else
           attrs.buildInputs;
