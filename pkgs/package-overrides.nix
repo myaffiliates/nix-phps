@@ -297,8 +297,7 @@ in
         if lib.versionOlder prev.php.version "8.1.0" then
           (builtins.filter (pkg: pkg != pkgs.icu73) attrs.buildInputs) ++ [ pkgs.icu64 ]
         else if lib.versionOlder prev.php.version "8.2.0" then
-          final.callPackage ./extensions/intl/74.nix { inherit prev; }
-          #(builtins.filter (pkg: pkg != pkgs.icu74) attrs.buildInputs) ++ [ pkgs.icu64 ]
+           (builtins.filter (pkg: pkg != pkgs.icu73) attrs.buildInputs) ++ [ pkgs.icu74 ]
         else
           attrs.buildInputs;
       doCheck = if lib.versionOlder prev.php.version "7.2" then false else attrs.doCheck or true;
