@@ -40,8 +40,8 @@ in
     composer-1 = final.callPackage ./composer/1.x.nix { };
   } // lib.optionalAttrs (lib.versionOlder prev.php.version "7.2.5") {
     composer = final.callPackage ./composer/2.2.nix { };
-  } // lib.optionalAttrs (lib.versionOlder prev.php.version "8.2.0") {
-    composer = final.callPackage ./composer/2.7.6.nix { };
+  #} // lib.optionalAttrs (lib.versionOlder prev.php.version "8.2.0") {
+  #  composer = final.callPackage ./composer/2.7.6.nix { };
   };
 
   extensions = prev.extensions // {
