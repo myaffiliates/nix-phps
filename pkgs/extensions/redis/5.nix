@@ -14,7 +14,10 @@ buildPecl {
     hash = "sha256-uVgWbM2k9AvRfGmY+eIjkCGuZERnzYrVwV3vQgqtZbA=";
   };
 
-  internalDeps = [ php.extensions.session ];
+  internalDeps = [
+    php.extensions.session
+    php.extensions.json
+  ];
 
   meta = {
     description = "PHP extension for interfacing with Redis";
